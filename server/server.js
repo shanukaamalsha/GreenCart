@@ -15,13 +15,17 @@ import { stripeWebhooks } from "./controllers/orderController.js";
 const app = express();
 const port = process.env.PORT || 4000;
 
-await connectDB()
-await connectCloudinary()
+// Connect DB & Cloudinary
+connectDB();
+connectCloudinary();
 
-// Alloed Multi Origin
-const allowedOrigins = ['http://localhost:5173']
+// Allowed Origins (add your deployed frontend URLs here)
+const allowedOrigins = [
+    'http://localhost:5173',
+    process.env.FRONTEND_URL,
+].filter(Boolean);
 
-app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks)
+app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 
 // Middleware Configuration
 app.use(express.json());
@@ -36,6 +40,11 @@ app.use('/api/cart', cartRouter);
 app.use('/api/address', addressRouter);
 app.use('/api/order', orderRouter);
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-})
+// Only listen when running locally (not on Vercel)
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+        console.log(`Server is running at http://localhost:${port}`);
+    });
+}
+
+export default app;
