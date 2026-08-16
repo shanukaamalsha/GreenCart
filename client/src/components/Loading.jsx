@@ -3,7 +3,7 @@ import { useAppContext } from "../context/AppContext";
 import { useLocation } from "react-router-dom";
 
 function Loading() {
-    const { navigate } = useAppContext();
+    const { navigate, setCartItems } = useAppContext();
     let { search } = useLocation();
     const query = new URLSearchParams(search);
     const nextUrl = query.get("next");
@@ -11,9 +11,9 @@ function Loading() {
     useEffect(() => {
         if (nextUrl) {
             setTimeout(() => {
-                navigate(`/${nextUrl}`);
                 setCartItems({});
-            }, 5000);
+                navigate(`/${nextUrl}`);
+            }, 3000);
         }
     }, [nextUrl]);
     return (

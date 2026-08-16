@@ -33,6 +33,13 @@ app.use(cookieParser());
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 app.get('/', (req, res) => res.send("API IS WORKING"));
+
+// Ensure DB is connected before every API request (cached after first connection)
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
+});
+
 app.use('/api/user', userRouter);
 app.use('/api/seller', sellerRouter);
 app.use('/api/product', productRouter);
