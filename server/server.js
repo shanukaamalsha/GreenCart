@@ -20,9 +20,10 @@ connectDB();
 connectCloudinary();
 
 // Allowed Origins (add your deployed frontend URLs here)
+const frontendUrl = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, "") : "";
 const allowedOrigins = [
     'http://localhost:5173',
-    process.env.FRONTEND_URL,
+    frontendUrl,
 ].filter(Boolean);
 
 app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
