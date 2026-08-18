@@ -47,8 +47,8 @@ app.use('/api/cart', cartRouter);
 app.use('/api/address', addressRouter);
 app.use('/api/order', orderRouter);
 
-// Only listen when running locally (not on Vercel)
-if (process.env.NODE_ENV !== 'production') {
+// Only listen when running locally (Vercel injects process.env.VERCEL=1)
+if (!process.env.VERCEL) {
     app.listen(port, () => {
         console.log(`Server is running at http://localhost:${port}`);
     });
