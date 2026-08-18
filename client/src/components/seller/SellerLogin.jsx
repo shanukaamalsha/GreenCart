@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
+import { toast } from "react-hot-toast";
 
 function SellerLogin() {
     const { isSeller, setIsSeller, navigate, axios } = useAppContext();
